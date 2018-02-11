@@ -1,13 +1,22 @@
 const Profile = require("./profile");
 const renderer = require("./renderer");
+const queryString = require("querystring");
 
 const home = (request, response) => {
 	if(request.url === "/"){
-		response.writeHead(200, {"Content-Type": "text/html"});
-		renderer.view("header",{}, response);
-		renderer.view("search",{}, response);
-		renderer.view("footer",{}, response);
-		response.end();
+		if(request.method.toUpperCase() === "GET"){
+			response.writeHead(200, {"Content-Type": "text/html"});
+			renderer.view("header",{}, response);
+			renderer.view("search",{}, response);
+			renderer.view("footer",{}, response);
+			response.end();
+		} else if (request.method.toUpperCase() === "POST"){
+			request.on("data", (postBody) => {
+				const query = queryString.parse(postBody.toString());
+				response.writeHead(303, {"Location": "/" + query.username});
+				response.end();
+			});
+		}
 	}
 	return;
 }
