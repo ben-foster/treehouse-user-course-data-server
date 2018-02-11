@@ -9,7 +9,7 @@ function mergeValues (values, content) {
 }
 
 const view = (templateName, values, response) => {
-	let fileContents = fs.readFileSync("./views/" + templateName + ".html", {encoding: "UTF-8"});
+	let fileContents = fs.readFileSync("./templates/" + templateName + ".html", {encoding: "UTF-8"});
 
 	fileContents = mergeValues(values, fileContents);
 
